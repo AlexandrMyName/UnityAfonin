@@ -230,13 +230,15 @@ public class Autorization_Game : MonoBehaviour
         else
         {
             DataSnapshot data = curentDB.Result;
-            if(
-                data.Child("Users:").Child(name).Value.ToString() == name
-                             && 
-                data.Child("Users:").Child("password").Value.ToString() == password
-                )
+
+            if (data.Child("password").Value.ToString() == password)
             {
-                Debug.Log("Данные сохранены" + data.Child("Users:").Value);
+                Debug.Log("Данные сохранены" + data.Child("Users:").Value + " | [USER] |");
+                Debug.Log("This project uses Google service autorization");
+            }
+            else
+            {
+                Debug.Log("Что то не так...");
             }
         }
     }
