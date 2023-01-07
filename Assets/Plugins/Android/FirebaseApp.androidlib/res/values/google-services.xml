@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:keep="@string/firebase_database_url,@string/gcm_defaultSenderId,@string/google_storage_bucket,@string/project_id,@string/google_api_key,@string/google_crash_reporting_api_key,@string/google_app_id,@string/default_web_client_id">
+  <string name="firebase_database_url" translatable="false">https://loserweighter-default-rtdb.firebaseio.com</string>
+  <string name="gcm_defaultSenderId" translatable="false">1047241086057</string>
+  <string name="google_storage_bucket" translatable="false">loserweighter.appspot.com</string>
+  <string name="project_id" translatable="false">loserweighter</string>
+  <string name="google_api_key" translatable="false">AIzaSyBqo8wzJWA-EVgKzfuOJotfBqxsaUwa3g0</string>
+  <string name="google_crash_reporting_api_key" translatable="false">AIzaSyBqo8wzJWA-EVgKzfuOJotfBqxsaUwa3g0</string>
+  <string name="google_app_id" translatable="false">1:1047241086057:android:f526f6a1fb84b207a03ef8</string>
+  <string name="default_web_client_id" translatable="false">1047241086057-mm60pie7vdq9d543goe8i5l7g9rd60kf.apps.googleusercontent.com</string>
+</resources>
