@@ -8,6 +8,7 @@ using Firebase;
 using System;
 using UnityEngine.SceneManagement;
 using Google.MiniJSON;
+using UnityEngine.SocialPlatforms;
 
 public class Autorization_Game : MonoBehaviour
 {
@@ -214,14 +215,16 @@ public class Autorization_Game : MonoBehaviour
         }
         else
         {
-            LocalSave local = new LocalSave();
-            local.UserName = name;
-            local.UserMoney = 100.ToString();
-            local.UserLevel = 1.ToString();
-            SaveLoad.Save(path,local);
+           
 
-            GameObject localDataSave = GameObject.Find("User_Saves");
-            localDataSave.GetComponent<UserSaves>().Username = name;
+            SaveLoad saveloadDB = GameObject.Find("User_Saves").GetComponent<SaveLoad>();
+
+            StartCoroutine(saveloadDB.SaveToDB(name,path));
+
+            //GameObject localDataSave = GameObject.Find("User_Saves");
+            //localDataSave.GetComponent<UserSaves>().UserName = name;
+
+
 
 
             Debug.Log("Данные сохранены");
@@ -246,22 +249,18 @@ public class Autorization_Game : MonoBehaviour
 
             Debug.Log("Здравствуйте! " + data.Child("name").Value.ToString());
 
-            try
-            {
-                LocalSave local = SaveLoad.Load(path);
-                Debug.Log("PARSE XML");
-                GameObject localDataSave = GameObject.Find("User_Saves");
-                localDataSave.GetComponent<UserSaves>().Username = local.UserName;
-            }
-            catch
-            {
-                LocalSave local = new LocalSave();
-                local.UserName = name;
-                local.UserMoney = 100.ToString();
-                local.UserLevel = 1.ToString();
-                SaveLoad.Save(path, local);
-            }
 
+            SaveLoad saveloadDB = GameObject.Find("User_Saves").GetComponent<SaveLoad>();
+
+           
+            Debug.Log("PARSE XML");
+
+                StartCoroutine(saveloadDB.SaveToDB(name,path));
+                Debug.Log("Сохранение в базу данных..");
+
+                StartCoroutine(saveloadDB.LoadFromDB(name));
+                Debug.Log("Загрузка из базы данных..");
+            
 
             Debug.Log("Данные сохранены" + data.Child("Users:").Value + " | [USER] |");
             Debug.Log("This project uses Google service autorization");

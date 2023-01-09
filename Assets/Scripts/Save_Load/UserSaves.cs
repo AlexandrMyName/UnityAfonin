@@ -5,14 +5,19 @@ using UnityEngine;
 /// <summary>
 /// Локальные сохранения на сцене
 /// </summary>
-public class UserSaves : MonoBehaviour
+public class UserSaves
 {
-     public string Username { get; set; }
-     public int Userlevel { get; set; }
+    public string UserName;
+    public string UserMoney;
+    public string UserLevel;
+     
 
-
-    private void Update()
+    public UserSaves (string UserName, string UserMoney, string UserLevel)
     {
-        Debug.Log(Username);
+        this.UserName = UserName;
+        this.UserMoney = UserMoney;
+        this.UserLevel = UserLevel;
     }
+
+   
 }
