@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<LocalData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <Name>c2Fz</Name>
-  <Password>c2Fz</Password>
-</LocalData>ata></LocalData>
+<LocalSave xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <UserName>Sasha93</UserName>
+  <UserMoney>100</UserMoney>
+  <UserLevel>1</UserLevel>
+</LocalSave>
