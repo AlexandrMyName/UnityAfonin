@@ -7,6 +7,8 @@ using Firebase.Database;
 using Firebase;
 using System;
 using UnityEngine.SceneManagement;
+using Google.MiniJSON;
+using UnityEngine.SocialPlatforms;
 
 public class Autorization_Game : MonoBehaviour
 {
@@ -22,7 +24,7 @@ public class Autorization_Game : MonoBehaviour
     [SerializeField] private string[] urls;
     [SerializeField] private bool isIthernet;
 
-    DataSnapshot dataSnapshot;
+    public string path;
 
     [Obsolete]
     void Start()
@@ -35,12 +37,12 @@ public class Autorization_Game : MonoBehaviour
             isIthernet = result;
             if(result)
             {
-                Debug.Log("Подключено!");
+                Debug.Log("Интернет соединение с базой данных установлено!");
                 autorization.StateChanged += Check_CurentUser;
             }
             else
             {
-                Debug.Log("Сбой подключения!");
+                Debug.Log("Сбой подключения! Проверьте интернет подключение...");
                 autorization.StateChanged -= Check_CurentUser;
             }
         }));
@@ -74,7 +76,8 @@ public class Autorization_Game : MonoBehaviour
         else
         {
             isSign_IN = false;
-            Debug.Log("Сбой авторизации..");
+            Debug.Log("Авторизация не выполнена, пожалуйста зарегистрируйтесь или войдите в аккаунт! ");
+            Debug.Log("|[Данные сохранятся локально, последующий вход в аккаунт будет выполнен автоматически]|");
         }
     }
     [Obsolete]
@@ -170,7 +173,7 @@ public class Autorization_Game : MonoBehaviour
                 {
                     if (result)
                     {
-                        StartCoroutine(DataBase_Load(email,name, password));
+                        StartCoroutine(DataBase_Load(name));
                     }
                     else
                     {
@@ -195,6 +198,7 @@ public class Autorization_Game : MonoBehaviour
     private IEnumerator DataBase_Save(string email,string name,string password)
     {
         DateTime date = new DateTime();
+        //date = date.AddDays(1);
         User curentUser = new User(name, password, email, date.ToString());
 
         var json = JsonUtility.ToJson(curentUser);
@@ -211,11 +215,23 @@ public class Autorization_Game : MonoBehaviour
         }
         else
         {
+           
+
+            SaveLoad saveloadDB = GameObject.Find("User_Saves").GetComponent<SaveLoad>();
+
+            StartCoroutine(saveloadDB.SaveToDB(name,path));
+
+            //GameObject localDataSave = GameObject.Find("User_Saves");
+            //localDataSave.GetComponent<UserSaves>().UserName = name;
+
+
+
+
             Debug.Log("Данные сохранены");
         }
     }
 
-    private IEnumerator DataBase_Load(string email,string name,string password)
+    private IEnumerator DataBase_Load(string name)
     {
 
         var curentDB = db.Child("Users:").Child(name).GetValueAsync();
@@ -229,17 +245,25 @@ public class Autorization_Game : MonoBehaviour
         }
         else
         {
-            DataSnapshot data = curentDB.Result;
+            DataSnapshot data = curentDB.Result ;
 
-            if (data.Child("password").Value.ToString() == password)
-            {
-                Debug.Log("Данные сохранены" + data.Child("Users:").Value + " | [USER] |");
-                Debug.Log("This project uses Google service autorization");
-            }
-            else
-            {
-                Debug.Log("Что то не так...");
-            }
+            Debug.Log("Здравствуйте! " + data.Child("name").Value.ToString());
+
+
+            SaveLoad saveloadDB = GameObject.Find("User_Saves").GetComponent<SaveLoad>();
+
+           
+            Debug.Log("PARSE XML");
+
+                StartCoroutine(saveloadDB.SaveToDB(name,path));
+                Debug.Log("Сохранение в базу данных..");
+
+                StartCoroutine(saveloadDB.LoadFromDB(name));
+                Debug.Log("Загрузка из базы данных..");
+            
+
+            Debug.Log("Данные сохранены" + data.Child("Users:").Value + " | [USER] |");
+            Debug.Log("This project uses Google service autorization");
         }
     }
 }
